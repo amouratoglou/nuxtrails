@@ -31,8 +31,8 @@ var require_windows = __commonJS({
   "node_modules/isexe/windows.js"(exports2, module2) {
     module2.exports = isexe;
     isexe.sync = sync;
-    var fs3 = require("fs");
-    function checkPathExt(path8, options) {
+    var fs4 = require("fs");
+    function checkPathExt(path9, options) {
       var pathext = options.pathExt !== void 0 ? options.pathExt : process.env.PATHEXT;
       if (!pathext) {
         return true;
@@ -43,25 +43,25 @@ var require_windows = __commonJS({
       }
       for (var i2 = 0; i2 < pathext.length; i2++) {
         var p = pathext[i2].toLowerCase();
-        if (p && path8.substr(-p.length).toLowerCase() === p) {
+        if (p && path9.substr(-p.length).toLowerCase() === p) {
           return true;
         }
       }
       return false;
     }
-    function checkStat(stat, path8, options) {
+    function checkStat(stat, path9, options) {
       if (!stat.isSymbolicLink() && !stat.isFile()) {
         return false;
       }
-      return checkPathExt(path8, options);
+      return checkPathExt(path9, options);
     }
-    function isexe(path8, options, cb) {
-      fs3.stat(path8, function(er, stat) {
-        cb(er, er ? false : checkStat(stat, path8, options));
+    function isexe(path9, options, cb) {
+      fs4.stat(path9, function(er, stat) {
+        cb(er, er ? false : checkStat(stat, path9, options));
       });
     }
-    function sync(path8, options) {
-      return checkStat(fs3.statSync(path8), path8, options);
+    function sync(path9, options) {
+      return checkStat(fs4.statSync(path9), path9, options);
     }
   }
 });
@@ -71,14 +71,14 @@ var require_mode = __commonJS({
   "node_modules/isexe/mode.js"(exports2, module2) {
     module2.exports = isexe;
     isexe.sync = sync;
-    var fs3 = require("fs");
-    function isexe(path8, options, cb) {
-      fs3.stat(path8, function(er, stat) {
+    var fs4 = require("fs");
+    function isexe(path9, options, cb) {
+      fs4.stat(path9, function(er, stat) {
         cb(er, er ? false : checkStat(stat, options));
       });
     }
-    function sync(path8, options) {
-      return checkStat(fs3.statSync(path8), options);
+    function sync(path9, options) {
+      return checkStat(fs4.statSync(path9), options);
     }
     function checkStat(stat, options) {
       return stat.isFile() && checkMode(stat, options);
@@ -102,7 +102,7 @@ var require_mode = __commonJS({
 // node_modules/isexe/index.js
 var require_isexe = __commonJS({
   "node_modules/isexe/index.js"(exports2, module2) {
-    var fs3 = require("fs");
+    var fs4 = require("fs");
     var core;
     if (process.platform === "win32" || global.TESTING_WINDOWS) {
       core = require_windows();
@@ -111,7 +111,7 @@ var require_isexe = __commonJS({
     }
     module2.exports = isexe;
     isexe.sync = sync;
-    function isexe(path8, options, cb) {
+    function isexe(path9, options, cb) {
       if (typeof options === "function") {
         cb = options;
         options = {};
@@ -121,7 +121,7 @@ var require_isexe = __commonJS({
           throw new TypeError("callback not provided");
         }
         return new Promise(function(resolve, reject) {
-          isexe(path8, options || {}, function(er, is) {
+          isexe(path9, options || {}, function(er, is) {
             if (er) {
               reject(er);
             } else {
@@ -130,7 +130,7 @@ var require_isexe = __commonJS({
           });
         });
       }
-      core(path8, options || {}, function(er, is) {
+      core(path9, options || {}, function(er, is) {
         if (er) {
           if (er.code === "EACCES" || options && options.ignoreErrors) {
             er = null;
@@ -140,9 +140,9 @@ var require_isexe = __commonJS({
         cb(er, is);
       });
     }
-    function sync(path8, options) {
+    function sync(path9, options) {
       try {
-        return core.sync(path8, options || {});
+        return core.sync(path9, options || {});
       } catch (er) {
         if (options && options.ignoreErrors || er.code === "EACCES") {
           return false;
@@ -158,7 +158,7 @@ var require_isexe = __commonJS({
 var require_which = __commonJS({
   "node_modules/which/which.js"(exports2, module2) {
     var isWindows = process.platform === "win32" || process.env.OSTYPE === "cygwin" || process.env.OSTYPE === "msys";
-    var path8 = require("path");
+    var path9 = require("path");
     var COLON = isWindows ? ";" : ":";
     var isexe = require_isexe();
     var getNotFoundError = (cmd) => Object.assign(new Error(`not found: ${cmd}`), { code: "ENOENT" });
@@ -196,7 +196,7 @@ var require_which = __commonJS({
           return opt.all && found.length ? resolve(found) : reject(getNotFoundError(cmd));
         const ppRaw = pathEnv[i2];
         const pathPart = /^".*"$/.test(ppRaw) ? ppRaw.slice(1, -1) : ppRaw;
-        const pCmd = path8.join(pathPart, cmd);
+        const pCmd = path9.join(pathPart, cmd);
         const p = !pathPart && /^\.[\\\/]/.test(cmd) ? cmd.slice(0, 2) + pCmd : pCmd;
         resolve(subStep(p, i2, 0));
       });
@@ -223,7 +223,7 @@ var require_which = __commonJS({
       for (let i2 = 0; i2 < pathEnv.length; i2++) {
         const ppRaw = pathEnv[i2];
         const pathPart = /^".*"$/.test(ppRaw) ? ppRaw.slice(1, -1) : ppRaw;
-        const pCmd = path8.join(pathPart, cmd);
+        const pCmd = path9.join(pathPart, cmd);
         const p = !pathPart && /^\.[\\\/]/.test(cmd) ? cmd.slice(0, 2) + pCmd : pCmd;
         for (let j = 0; j < pathExt.length; j++) {
           const cur = p + pathExt[j];
@@ -271,7 +271,7 @@ var require_path_key = __commonJS({
 var require_resolveCommand = __commonJS({
   "node_modules/cross-spawn/lib/util/resolveCommand.js"(exports2, module2) {
     "use strict";
-    var path8 = require("path");
+    var path9 = require("path");
     var which = require_which();
     var getPathKey = require_path_key();
     function resolveCommandAttempt(parsed, withoutPathExt) {
@@ -289,7 +289,7 @@ var require_resolveCommand = __commonJS({
       try {
         resolved = which.sync(parsed.command, {
           path: env2[getPathKey({ env: env2 })],
-          pathExt: withoutPathExt ? path8.delimiter : void 0
+          pathExt: withoutPathExt ? path9.delimiter : void 0
         });
       } catch (e) {
       } finally {
@@ -298,7 +298,7 @@ var require_resolveCommand = __commonJS({
         }
       }
       if (resolved) {
-        resolved = path8.resolve(hasCustomCwd ? parsed.options.cwd : "", resolved);
+        resolved = path9.resolve(hasCustomCwd ? parsed.options.cwd : "", resolved);
       }
       return resolved;
     }
@@ -352,8 +352,8 @@ var require_shebang_command = __commonJS({
       if (!match) {
         return null;
       }
-      const [path8, argument] = match[0].replace(/#! ?/, "").split(" ");
-      const binary = path8.split("/").pop();
+      const [path9, argument] = match[0].replace(/#! ?/, "").split(" ");
+      const binary = path9.split("/").pop();
       if (binary === "env") {
         return argument;
       }
@@ -366,16 +366,16 @@ var require_shebang_command = __commonJS({
 var require_readShebang = __commonJS({
   "node_modules/cross-spawn/lib/util/readShebang.js"(exports2, module2) {
     "use strict";
-    var fs3 = require("fs");
+    var fs4 = require("fs");
     var shebangCommand = require_shebang_command();
     function readShebang(command) {
       const size = 150;
       const buffer = Buffer.alloc(size);
       let fd;
       try {
-        fd = fs3.openSync(command, "r");
-        fs3.readSync(fd, buffer, 0, size, 0);
-        fs3.closeSync(fd);
+        fd = fs4.openSync(command, "r");
+        fs4.readSync(fd, buffer, 0, size, 0);
+        fs4.closeSync(fd);
       } catch (e) {
       }
       return shebangCommand(buffer.toString());
@@ -388,7 +388,7 @@ var require_readShebang = __commonJS({
 var require_parse = __commonJS({
   "node_modules/cross-spawn/lib/parse.js"(exports2, module2) {
     "use strict";
-    var path8 = require("path");
+    var path9 = require("path");
     var resolveCommand = require_resolveCommand();
     var escape = require_escape();
     var readShebang = require_readShebang();
@@ -413,7 +413,7 @@ var require_parse = __commonJS({
       const needsShell = !isExecutableRegExp.test(commandFile);
       if (parsed.options.forceShell || needsShell) {
         const needsDoubleEscapeMetaChars = isCmdShimRegExp.test(commandFile);
-        parsed.command = path8.normalize(parsed.command);
+        parsed.command = path9.normalize(parsed.command);
         parsed.command = escape.command(parsed.command);
         parsed.args = parsed.args.map((arg) => escape.argument(arg, needsDoubleEscapeMetaChars));
         const shellCommand = [parsed.command].concat(parsed.args).join(" ");
@@ -5487,13 +5487,13 @@ var logOutputSync = ({ serializedResult, fdNumber, state, verboseInfo, encoding,
   }
 };
 var writeToFiles = (serializedResult, stdioItems, outputFiles) => {
-  for (const { path: path8, append } of stdioItems.filter(({ type }) => FILE_TYPES.has(type))) {
-    const pathString = typeof path8 === "string" ? path8 : path8.toString();
+  for (const { path: path9, append } of stdioItems.filter(({ type }) => FILE_TYPES.has(type))) {
+    const pathString = typeof path9 === "string" ? path9 : path9.toString();
     if (append || outputFiles.has(pathString)) {
-      (0, import_node_fs4.appendFileSync)(path8, serializedResult);
+      (0, import_node_fs4.appendFileSync)(path9, serializedResult);
     } else {
       outputFiles.add(pathString);
-      (0, import_node_fs4.writeFileSync)(path8, serializedResult);
+      (0, import_node_fs4.writeFileSync)(path9, serializedResult);
     }
   }
 };
@@ -8746,8 +8746,37 @@ async function generateComponents(modelName) {
   console.log(source_default.green(`\u2705 Components generated: ${className}Form.vue, ${className}Table.vue`));
 }
 
+// commands/project.ts
+var import_promises14 = __toESM(require("fs/promises"));
+var import_path3 = __toESM(require("path"));
+var import_fs2 = require("fs");
+async function runNewProject(projectName) {
+  const projectPath = import_path3.default.resolve(projectName);
+  if ((0, import_fs2.existsSync)(projectPath)) {
+    console.log(source_default.red(`\u274C Folder "${projectName}" already exists.`));
+    process.exit(1);
+  }
+  console.log(source_default.cyan(`\u{1F680} Creating new Nuxt 4 project: ${projectName}`));
+  await execa("npx", ["nuxi", "init", projectName], { stdio: "inherit" });
+  console.log(source_default.cyan("\u{1F4E6} Installing dependencies..."));
+  await execa("npm", ["install"], { cwd: projectPath, stdio: "inherit" });
+  await execa("npm", ["install", "-D", "prisma"], { cwd: projectPath, stdio: "inherit" });
+  await execa("npm", ["install", "@prisma/client", "pinia"], { cwd: projectPath, stdio: "inherit" });
+  console.log(source_default.cyan("\u{1F9EC} Initializing Prisma..."));
+  await execa("npx", ["prisma", "init"], { cwd: projectPath, stdio: "inherit" });
+  const folders = ["server/api", "stores", "components"];
+  for (const dir of folders) {
+    await import_promises14.default.mkdir(import_path3.default.join(projectPath, dir), { recursive: true });
+  }
+  console.log(source_default.green(`\u2705 Project ${projectName} created!`));
+  console.log(source_default.green(`\u{1F4A1} Next steps:`));
+  console.log(source_default.yellow(`  cd ${projectName}`));
+  console.log(source_default.yellow(`  nuxtrails generate model Post title:string body:text`));
+}
+
 // bin/nuxtrails.ts
 var cli = cac("nuxtrails");
+cli.command("new <project>", "Create a new Nuxt 4 project scaffolded with Prisma").action(runNewProject);
 cli.command("init prisma", "Set up Prisma with SQLite").action(runInitPrisma);
 cli.command("generate <type> <name> [...fields]", "Generate resource files").action((type, name, fields) => {
   if (type === "model") {

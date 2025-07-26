@@ -390,5 +390,12 @@ async function generateApiRoutes(modelName: string) {
     await fs.writeFile(path.join(compPath, `${className}Table.vue`), tableComponent)
   
     console.log(chalk.green(`✅ Components generated: ${className}Form.vue, ${className}Table.vue`))
+
+    // Inform the user about the generated CRUD page routes
+    console.log(chalk.blue(`🌐 Your CRUD pages are ready:`))
+    console.log(`  • List: /${slug}`)
+    console.log(`  • Create: /${slug}/create`)
+    console.log(`  • Detail: /${slug}/:id`)
+    console.log(`  • Edit: /${slug}/:id/edit`)
   }
   

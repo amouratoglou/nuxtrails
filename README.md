@@ -1,103 +1,115 @@
-# nuxtrails
+# Nuxtrails
 
-A CLI tool inspired by Ruby on Rails to scaffold full-stack Nuxt 3 applications with Prisma, API routes, Pinia stores, and pages — all in one command.
+## What is nuxtrails ?
 
-## 🚀 Features
+This is personal tool, let's see how it goes, and if someone else finds it useful, great!
 
-- Generate Prisma models
-- Auto-run Prisma migrations
-- Create RESTful API routes
-- Create Pinia stores for CRUD operations
-- Generate Nuxt pages and components (Form, Table)
-- Consistent naming and project structure
+**It is a opinionated, Rails-inspired scaffolding CLI for Nuxt 4 + Prisma.**  It is powered by the amazing nuxi tool, it goes one step beyond with some of the things it will create for you. 
 
-## 📦 Installation
+- Generate models, 
+- APIs endpoints. 
+- Pinia store for each model.
+- Page routes to view your data. 
+- and components to render it.
+
+... just like Rails, but with Vue & Nuxt! I hope it saves you time and makes building fullstack Nuxt apps easier!
+
+You can paste this command to your LLM to to create the commands for you to generate your desired model. 
+
+---
+
+## ✨ What It Does
+
+`nuxtrails` is a fullstack CLI generator for Nuxt 4 projects.
+
+When you run:
 
 ```bash
-git clone https://github.com/your-username/nuxtrails
-cd nuxtrails
-npm install
-npm link
-```
-
-## 🛠 Usage
-
-```bash
-chmod +x bin/nuxtrails.ts
 nuxtrails generate model Post title:string body:text published:boolean
 ```
 
-This will:
+It will:
 
-- Add `Post` model to `prisma/schema.prisma`
-- Run Prisma migration
-- Generate API handlers in `server/api/posts`
-- Create a Pinia store in `stores/posts.ts`
-- Generate pages in `pages/posts/`
-- Create reusable components
+✅ Create a Prisma model in `prisma/schema.prisma`  
+✅ Run `prisma migrate dev`  
+✅ Generate full RESTful API under `server/api/posts`  
+✅ Create a Pinia store in `stores/posts.ts`  
+✅ Scaffold CRUD pages in `pages/posts/`  
+✅ Generate reusable Vue components (`PostForm.vue`, `PostTable.vue`)  
+✅ Auto-generate routes based on file system
 
-## 🧪 Development
 
-Run locally without installing globally:
+---
+
+## Quick Start
+
+### Option 1: Use via `npx` (no install)
 
 ```bash
-npm run dev -- generate model Post title:string
+npx nuxtrails new blog
+cd blog
+npx nuxtrails generate model Post title:string body:text published:boolean
 ```
+
+---
+
+### Option 2: Install globally
+
+```bash
+npm install -g nuxtrails
+
+# Create new Nuxt 4 project scaffolded with Prisma
+nuxtrails new blog
+cd blog
+
+# Generate a full model with API + pages + store
+nuxtrails generate model Post title:string body:text published:boolean
+```
+
+---
 
 ## 📁 Output Structure
 
 ```
-nuxt-app/
-├── server/api/posts/         # API routes
-├── prisma/schema.prisma      # DB models
-├── stores/posts.ts           # Pinia store
-├── pages/posts/              # List, create, show, edit
-├── components/               # Form + Table
-├── nuxt.config.ts
-└── app.vue
-
+blog/
+├── prisma/
+│   └── schema.prisma
+├── server/api/posts/
+│   ├── index.get.ts
+│   ├── create.post.ts
+│   ├── [id].get.ts
+│   ├── [id].put.ts
+│   └── [id].delete.ts
+├── stores/posts.ts
+├── pages/posts/
+│   ├── index.vue
+│   ├── create.vue
+│   ├── [id].vue
+│   └── [id]/edit.vue
+└── components/
+    ├── PostForm.vue
+    └── PostTable.vue
 ```
 
-```
-/server/api/posts/
-  - index.get.ts
-  - [id].get.ts
-  - [id].put.ts
-  - [id].delete.ts
-  - create.post.ts
+---
 
-/stores/posts.ts
+## 📦 Dependencies It Sets Up
 
-/pages/posts/
-  - index.vue
-  - create.vue
-  - [id].vue
-  - [id]/edit.vue
+When you run `nuxtrails new blog`, it installs:
+- Nuxt 4 (via `nuxi init`)
+- Prisma + @prisma/client
+- Pinia (via `@pinia/nuxt`)
 
-/components/
-  - PostForm.vue
-  - PostTable.vue
-```
+---
+
+## 🛠 Requirements
+
+- Node.js >= 18
+- npm or pnpm
+- Internet access (to run `nuxi`, install dependencies)
+
+---
 
 ## 📘 License
 
 MIT
-
-
-## generate
-
-nuxtrails generate model Post title:string body:text published:boolean
-
-## basic api 
-
-
-```
-/server/api/posts/
-├── index.get.ts        # GET /api/posts        -> list all
-├── create.post.ts      # POST /api/posts/create -> create new
-├── [id].get.ts         # GET /api/posts/[id]   -> show
-├── [id].put.ts         # PUT /api/posts/[id]   -> update
-├── [id].delete.ts      # DELETE /api/posts/[id] -> delete
-
-
-```

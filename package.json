@@ -1,27 +1,19 @@
 {
-  "name": "nuxt-gem",
-  "version": "1.0.0",
-  "main": "index.js",
-"bin": {
-  "nuxtrails": "bin/nuxtrails.js"
-}, "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx bin/nuxt-gem.ts",
-"build": "npx esbuild bin/nuxtrails.ts --bundle --outfile=bin/nuxtrails.js --platform=node --format=cjs"
+  "name": "nuxtrails",
+  "version": "1.2.2",
+  "description": "Rails-style scaffolding for Nuxt 4 with Prisma",
+  "bin": {
+    "nuxtrails": "bin/nuxtrails.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "cac": "^6.7.14",
-    "chalk": "^5.4.1",
-    "ejs": "^3.1.10",
-    "execa": "^9.6.0"
-  },
-  "devDependencies": {
-    "@types/node": "^24.1.0",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+  "keywords": ["nuxt", "scaffold", "cli", "rails", "prisma"],
+  "author": "Your Name",
+  "license": "MIT",
+  "type": "commonjs",
+  "files": [
+    "bin",
+    "commands"
+  ],
+  "scripts": {
+    "build": "esbuild bin/nuxtrails.ts --bundle --platform=node --format=cjs --outfile=bin/nuxtrails.js"
   }
 }
